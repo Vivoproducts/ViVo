@@ -1,8 +1,9 @@
 // Regressietest: alle pagina's op desktop en mobiel — scriptfouten, ontbrekende bestanden, overloop, <main>, infades, 3D.
 // Draaien (server nodig): node tools/regressie.mjs [basis-url]   standaard http://localhost:5178/docs/ — live: https://thomv-flow8.github.io/ViVo/
 import { chromium } from 'playwright';
+import { CASES } from '../site/inhoud.mjs';
 const B = process.argv[2] || 'http://localhost:5178/docs/';
-const PAGINAS = ['', 'over/', 'contact/', 'privacy/', 'voorwaarden/', 'werk/thnk/', 'werk/delphi/', 'werk/mozi/', 'werk/flow8/'];
+const PAGINAS = ['', 'over/', 'contact/', 'privacy/', 'voorwaarden/', ...CASES.map(c => `werk/${c.slug}/`)]; // cases uit inhoud.mjs: nieuwe gaan vanzelf mee
 const b = await chromium.launch({ args: ['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader'] });
 let problemen = 0;
 for (const pad of PAGINAS) for (const w of [1440, 390]) {

@@ -145,6 +145,12 @@ Ook als `vivo-preview` in `.claude/launch.json`.
      **Keuze Thomas: variant H (breed met portret)** — portret + gegevens boven, banner 600 px eronder, adres/KvK onderaan.
      Opbouw met `<table>` en inline opmaak (Outlook gebruikt de Word-rendering: geen flexbox/grid, geen border-radius op img).
      Banner linkt naar de site met `?utm_source=mailhandtekening`.
+   - **BA Montage toegevoegd als case (16 okt 2026):** bamontage.nl — cinewalls met sfeerhaard, configurator in 2D/3D,
+     haardencatalogus per merk. Opnames via `node tools/screenshots.mjs bamontage` (staat in de lijst in dat script),
+     logo uit `~/Projects/BA-Montage/logo/png/…-liggend-zonder-slogan-licht-600.png` (licht, want donkere hero).
+     Donkere hero: slug in `DONKER`; projectkaart in modus **`browser`** (browservenster dat bij hover doorscrolt).
+     Case-tekst uit het logboek van dat project (`~/Projects/BA-Montage/PROJECT.md`) — geen verzonnen cijfers.
+     **`tools/regressie.mjs` leest de cases nu uit `inhoud.mjs`**, dus een nieuwe case gaat vanzelf mee in de test.
    - **Cookies / meten (keuze Thomas: analytics + marketing):** ID's in `SITE.meten` (`ga4`, `googleAds`, `metaPixel`).
      **Leeg = uit**: geen melding, geen scripts, privacytekst "geen cookies". Ingevuld → automatisch cookiemelding
      (`site/toestemming.js`: niets laden vóór toestemming, weigeren even makkelijk als accepteren, Consent Mode v2,

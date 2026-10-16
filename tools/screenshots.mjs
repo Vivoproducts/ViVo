@@ -14,6 +14,7 @@ const CASES = [
   { slug: 'thnk', url: 'https://www.thnkmusic.com/' },
   { slug: 'delphi', url: 'https://www.sleutelbeheersystemen.nl/' },
   { slug: 'mozi', url: 'https://thomv-flow8.github.io/Mozi/', verberg: ['Ontwerpvoorstel'] },
+  { slug: 'bamontage', url: 'https://bamontage.nl/' },
 ];
 
 // Verbergt vaste balken (cookiemelding, review-melding) op basis van hun tekst

@@ -16,6 +16,14 @@ Bijgewerkt: 5 oktober 2026. Afgeronde punten weghalen, nieuwe onderaan de juiste
 
 ## Technisch, wanneer het uitkomt
 
+- [ ] **www.vivoproducts.nl werkend krijgen** — GitHub geeft al sinds 4 okt geen certificaat uit voor www
+      (`cert: new`, "aanvraag start binnenkort"). Losse en opnieuw koppelen hielp niet (11 okt).
+      **Oorzaak waarschijnlijk:** bij Strato staat maar **één** A-record en **één** AAAA-record, terwijl GitHub
+      er vier van elk verwacht. Toe te voegen bij Strato (DNS → A-record → configuratie):
+      `185.199.109.153`, `185.199.110.153`, `185.199.111.153`; AAAA: `2606:50c0:8001::153` t/m `8003::153`.
+      MX-records niet aanraken. Daarna in GitHub het domein opnieuw laten controleren en https afdwingen.
+      Lukt dat niet, dan Cloudflare (lost ook de beveiligingsheaders hieronder op).
+
 - [ ] **https afdwingen** — kan pas als het GitHub-certificaat op "approved" staat.
       GitHub → repo ViVo → Settings → Pages → "Enforce HTTPS". Of vraag het mij.
 - [ ] **Cloudflare** — voor beveiligingsheaders (HSTS, CSP); beveiligingsscore van ±85 naar ±95.

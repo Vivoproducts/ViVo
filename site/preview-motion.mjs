@@ -170,7 +170,7 @@ const img = (slug, f) => `../docs/img/cases/${slug}/${webp(slug, f)}`;
 const pngMaat = p => { const b = readFileSync(p); return [b.readUInt32BE(16), b.readUInt32BE(20)]; };
 const afm = (slug, f) => { const p = join(root, 'docs/img/cases', slug, f); if (!existsSync(p)) return ''; const [w, h] = f.endsWith('.png') ? pngMaat(p) : jpgMaat(p); return ` width="${w}" height="${h}"`; };
 const heeft = (slug, f) => existsSync(join(root, 'docs/img/cases', slug, f));
-const MODUS = { thnk: 'vol', delphi: 'tablet', mozi: 'tablet-scroll', flow8: 'scherm' };
+const MODUS = { thnk: 'vol', delphi: 'tablet', mozi: 'tablet-scroll', bamontage: 'browser', flow8: 'scherm' };
 const VOLGORDE = { flow8: ['login.jpg', 'rapportage.jpg', 'desktop.jpg', 'route.jpg', 'kaart.jpg'] };
 // Op de lichtgrijze projectsectie valt het bijna-witte DELPHI-vlak weg → daar wit
 const OP_GRIJS = { delphi: '#ffffff' };
@@ -806,7 +806,7 @@ console.log('Geschreven: docs-preview/motion.html');
 // ════ Case-pagina (preview, aanpak B): zelfde stijl/kopbalk/afsluiter als de homepage + eigen opbouw ════
 // Hero in projectkleur met tablet + telefoon · verhaal groot en leesbaar · galerij (scroll door de site + mobiel)
 // · groot "volgende case"-vlak. Eerst alleen DELPHI (akkoord Thomas), daarna doortrekken naar alle cases.
-const DONKER = new Set(['thnk', 'flow8']);
+const DONKER = new Set(['thnk', 'flow8', 'bamontage']); // donkere hero → wit logo, lichte tekst
 const HERO_KLEUR = { delphi: '#ffffff' };
 const HERO_BEELD = { flow8: 'rapportage.jpg' }; // Flow8: rapportage oogt het sterkst (en heeft geen telefoonbeeld) // DELPHI-hero wit, net als hun eigen site (keuze Thomas)
 const CASE_CSS = `
