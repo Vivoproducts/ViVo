@@ -38,7 +38,7 @@ Ook als `vivo-preview` in `.claude/launch.json`.
 4. Siteconcept → preview → bouw — **bezig**
    - Domein **vivoproducts.nl** (DNS bij Strato; mail info@ loopt via Strato — MX-records nooit aanraken).
      Contact op de site: **info@vivoproducts.nl**. Hosting: **GitHub Pages, main → /docs** (staat aan sinds 3 okt 2026):
-     https://thomv-flow8.github.io/ViVo/ — alleen de site wordt gepubliceerd, niet de logo-/huisstijlrondes.
+     https://vivoproducts.github.io/ViVo/ — alleen de site wordt gepubliceerd, niet de logo-/huisstijlrondes.
      **Elke push naar main = live.**
    - Opzet (akkoord Thomas): homepage (hero, showcase, statement, diensten, werk, werkwijze, contact)
      **én** meteen case-pagina's. 'Bekijk case' → eigen case-pagina, met link naar de live site.
@@ -133,12 +133,27 @@ Ook als `vivo-preview` in `.claude/launch.json`.
      **Regressietest: `node tools/regressie.mjs [url]`** (alle pagina's, desktop + mobiel).
    - **Eigen domein (4 okt 2026):** vivoproducts.nl → GitHub Pages. Strato-pakket = Mail Plus (domein + mail, géén webhosting).
      DNS bij Strato: A `185.199.108.153`, AAAA `2606:50c0:8000::153` (Strato staat één adres per type toe), www volgt het
-     hoofddomein, **MX `smtp.rzone.de` ongemoeid**. www: CNAME `www` → `thomv-flow8.github.io` (Strato: DNS → TXT- en CNAME-records,
+     hoofddomein, **MX `smtp.rzone.de` ongemoeid**. www: CNAME `www` → `vivoproducts.github.io` (Strato: DNS → TXT- en CNAME-records,
      voorvoegsel www). **Hoofdadres = https://vivoproducts.nl (zonder www).** Thomas koos eerst www, maar het www-certificaat
      bleef bij GitHub ruim een uur op "dns_changed" hangen → op 4 okt 2026 teruggezet (afspraak met Thomas). www en het oude
      github.io-adres sturen door. `docs/CNAME` = vivoproducts.nl (bouw.mjs) + custom domain in Pages-instellingen; https afdwingen
      kan pas als het certificaat "approved" is. **Let op:** custom domain via de API los-/aankoppelen laat GitHub zelf commits
      "Delete/Create CNAME" maken → daarna `git pull --ff-only`. `SITE.basis` en `SITE.url` = https://vivoproducts.nl.
+   - **Repo verhuisd naar de organisatie (18 okt 2026):** `thomv-flow8/ViVo` → **`Vivoproducts/ViVo`**. Reden: het
+     www-certificaat bleef sinds 4 okt op `cert: new` hangen, en GitHub Support wees een ticket automatisch af omdat
+     `thomv-flow8` een gratis account is. De organisatie **Vivoproducts** draait op het **Team**-plan en heeft wél recht
+     op support. De transfer verliep zonder uitval: Pages behield het custom domain, het bestaande certificaat voor
+     `vivoproducts.nl` bleef geldig. Gevolgen: Pages-adres is nu `vivoproducts.github.io`, de www-CNAME bij Strato is
+     meeverhuisd, en de git-remote is omgezet. Het oude adres `thomv-flow8.github.io/ViVo/` geeft sindsdien een 404.
+     **Loopt het certificaat alsnog vast: ticket indienen namens Vivoproducts**, niet namens het persoonlijke account.
+     Gecontroleerd en in orde (checklist van GitHub): één custom-domainvariant, geen extra A/AAAA/ALIAS op het apex,
+     geen CAA-records, www wijst niet naar het apex, `docs/CNAME` aanwezig in de publicatiebron.
+   - **SPF aangezet (18 okt 2026):** stond op "Geen STRATO SPF-regel" terwijl DMARC al op `p=reject` staat — alleen DKIM
+     dekte de mail af. Bij Strato (DNS → **STRATO SPF-regel**) op **"Standaard STRATO mailserver"** gezet →
+     `v=spf1 redirect=_spf.strato.com`. Geverifieerd met een testmail naar Hotmail: **spf=pass, dkim=pass, dmarc=pass**.
+     Let op bij toekomstige controles: Strato's beleid eindigt op `-all` en de submission-server waarop Apple Mail inlogt
+     (`smtp.strato.de`, 81.169.145.x) staat **niet** in de lijst — dat hoort zo. SPF kijkt naar de uitgaande relay
+     (`mo4-p00-ob.smtp.rzone.de`, 81.169.146.x), en die valt wél binnen `81.169.146.128/25`.
    - **E-mailhandtekening (5 okt 2026):** `node tools/mail-handtekening.mjs` → `beelden/mail/*.png` (2x; e-mailclients tonen
      geen SVG) en `handtekening/` met negen varianten + instructies. De beelden gaan via publiceer-preview.mjs naar
      **`docs/mail/`**, zodat de URL kort en stabiel is (vivoproducts.nl/mail/...) — nodig omdat beelden in e-mail extern laden.

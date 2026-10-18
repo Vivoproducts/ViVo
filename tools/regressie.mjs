@@ -1,5 +1,5 @@
 // Regressietest: alle pagina's op desktop en mobiel — scriptfouten, ontbrekende bestanden, overloop, <main>, infades, 3D.
-// Draaien (server nodig): node tools/regressie.mjs [basis-url]   standaard http://localhost:5178/docs/ — live: https://thomv-flow8.github.io/ViVo/
+// Draaien (server nodig): node tools/regressie.mjs [basis-url]   standaard http://localhost:5178/docs/ — live: https://vivoproducts.nl/
 import { chromium } from 'playwright';
 import { CASES } from '../site/inhoud.mjs';
 const B = process.argv[2] || 'http://localhost:5178/docs/';
