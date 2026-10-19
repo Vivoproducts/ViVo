@@ -249,6 +249,14 @@ const CSS = `
   @keyframes val { 0% { top: -16px; } 75%, 100% { top: 72px; } }
   @media (prefers-reduced-motion: reduce) { .scrollcue .lijn i { animation: none; top: 28px; } }
   @media (max-width: 860px) { .chev3d { width: 32vw; right: 12vw; top: auto; bottom: 90px; } .mhero { align-items: flex-start; padding-top: 130px; padding-bottom: 52vw; } .stip-groep { display: none; } }
+  /* Tablet staand (700-860px breed): tekst verticaal centreren en de onderzone begrenzen. Die zone rekent met de breedte (52vw),
+     terwijl het gat tussen knop en logo door de hoogte ontstaat - op een smalle, hoge tablet liepen die uit elkaar (gat van 188-262px). */
+  @media (min-width: 700px) and (max-width: 860px) { .mhero { align-items: center; padding-bottom: min(52vw, 360px); } .chev3d { width: 36vw; bottom: 8svh; } }
+  /* Korte telefoons (iPhone SE en ouder): 130px boven + 52vw onder is samen meer dan 667px hoog, waardoor de hero 30px oversteekt. */
+  @media (max-width: 860px) and (max-height: 720px) { .mhero { padding-top: 104px; padding-bottom: 44vw; } .chev3d { bottom: 72px; } }
+  /* Tabletbreedte maar een laag venster (bv. een verkleind browservenster): daar past de gecentreerde opmaak hierboven niet,
+     want 130px boven + tekst + 360px onder is samen ruim 860px. Terug naar bovenaan uitlijnen met een krappere onderzone. */
+  @media (min-width: 700px) and (max-width: 860px) and (max-height: 870px) { .mhero { align-items: flex-start; padding-top: 96px; padding-bottom: min(44vw, 22svh); } .chev3d { width: 26vw; bottom: 56px; } }
 
   /* ── 3D-bouwstenen in composities ── */
   .comp { position: relative; aspect-ratio: 5 / 4; border-radius: var(--r); overflow: hidden; container-type: inline-size; isolation: isolate; box-shadow: 0 40px 80px -40px rgba(10, 11, 13, .25); }

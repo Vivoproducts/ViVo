@@ -70,6 +70,9 @@
 @keyframes val { 0% { top: -16px; } 75%, 100% { top: 72px; } }
 @media (prefers-reduced-motion: reduce) { .scrollcue .lijn i { animation: none; top: 28px; } }
 @media (max-width: 860px) { .chev3d { width: 32vw; right: 12vw; top: auto; bottom: 90px; } .mhero { align-items: flex-start; padding-top: 130px; padding-bottom: 52vw; } .stip-groep { display: none; } }
+@media (min-width: 700px) and (max-width: 860px) { .mhero { align-items: center; padding-bottom: min(52vw, 360px); } .chev3d { width: 36vw; bottom: 8svh; } }
+@media (max-width: 860px) and (max-height: 720px) { .mhero { padding-top: 104px; padding-bottom: 44vw; } .chev3d { bottom: 72px; } }
+@media (min-width: 700px) and (max-width: 860px) and (max-height: 870px) { .mhero { align-items: flex-start; padding-top: 96px; padding-bottom: min(44vw, 22svh); } .chev3d { width: 26vw; bottom: 56px; } }
 .comp { position: relative; aspect-ratio: 5 / 4; border-radius: var(--r); overflow: hidden; container-type: inline-size; isolation: isolate; box-shadow: 0 40px 80px -40px rgba(10, 11, 13, .25); }
 .comp.licht { background: radial-gradient(120% 100% at 30% 0%, #ffffff 0%, var(--papier-2) 60%, #e8ebef 100%); }
 .comp.donker { background: radial-gradient(120% 100% at 50% 100%, #26304a 0%, var(--nacht) 60%); }
