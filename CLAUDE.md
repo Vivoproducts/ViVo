@@ -107,6 +107,18 @@ Ook als `vivo-preview` in `.claude/launch.json`.
      scrollen, `.doorkijk`); telefoon iPhone Plus-formaat; compacte "volgende case". Klantlogo: `cases/<slug>/logo.png`
      (DELPHI uitgesneden uit de eigen opname). `naamKop` = naam met vast afbreekpunt (\u00ad) voor grote koppen.
      Infades via `.onthul` (IntersectionObserver) — níet via ScrollTrigger-start, die mist bij lazy beelden.
+   - **Toegankelijkheid van de hero-intro (22 okt 2026):** de intro splitst label en kop in losse letters/woorden, die `aria-hidden`
+     krijgen. De volledige tekst mag dan **niet** als `aria-label` op de `<span class="label">` — een kale span kan geen naam dragen
+     (Lighthouse: "Elementen gebruiken niet-toegestane ARIA-kenmerken"; kostte toegankelijkheid 96 en agentisch browsen 2/3).
+     Oplossing: een `<span class="sr">` (bestaat al in vivo.css) mét de tekst vóór de letters; die staat `absolute`, dus hij voegt
+     geen flex-gap toe aan het label. De `<h1>` ernaast houdt wél `aria-label` — een kop kan een naam dragen.
+     **Let op bij het nameten:** `text-transform: uppercase` werkt door in de naam in de toegankelijkheidsboom, dus zoek
+     hoofdletterongevoelig, anders lijkt tekst ten onrechte te ontbreken.
+   - **PageSpeed (22 okt 2026, mobiel): 93 / 96 / 100 / 100.** Niet op te lossen zolang de site op GitHub Pages staat:
+     `cache-control: max-age=600` op alles (±281 KiB, alleen van belang voor terugkerende bezoekers) en de beveiligingsheaders
+     (CSP/HSTS/COOP/XFO) — beide vragen **Cloudflare**. De **Speed Index (5,7 s)** is volledig de hero-intro: gemeten onder
+     dezelfde omstandigheden is FCP 1,2 s, schuift het witte vlak weg op 3,2 s en is de intro klaar op 5,2 s. De rest is goed
+     (TBT 10 ms, CLS 0, `font-display: swap` staat al op alle vier de lettertypen). **Besluit Thomas: intro zo laten.**
    - **Tweede cursor (Baunfire):** `.muiscirkel` volgt de muis, groeit boven links/knoppen/beelden; alleen met muis, niet
      bij minder beweging. Let op: `.cursor` is al in gebruik (muispijl in een werkwijze-illustratie).
    - **Audit (squirrelscan, 3 okt 2026) en fixes:** draaien met `NO_TELEMETRY=1 npx -y squirrelscan audit <url> --format llm`

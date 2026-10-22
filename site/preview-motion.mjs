@@ -701,8 +701,10 @@ ${AFSLUITER()}
     gsap.to('.scrollcue', { opacity: 0, y: 20, ease: 'none', scrollTrigger: { trigger: '.mhero', start: 'top top', end: '15% top', scrub: true } });
     // ── Intro: wit → donker vlak schuift van links naar rechts → label letter voor letter → kop woord voor woord ──
     const label = document.querySelector('.mhero .label'), kopH1 = document.querySelector('.mhero h1');
-    label.setAttribute('aria-label', label.textContent); kopH1.setAttribute('aria-label', kopH1.textContent);
-    label.innerHTML = '<span aria-hidden="true">' + [...label.textContent].map(c => '<span class="lt">' + (c === ' ' ? '&nbsp;' : c) + '</span>').join('') + '</span>'; // één binnenrij: het label is een flexbox met gap
+    kopH1.setAttribute('aria-label', kopH1.textContent); // mag wel: een <h1> kan een naam dragen. Een kale <span> niet, dus het label krijgt verborgen tekst i.p.v. aria-label.
+    const labelTekst = label.textContent;
+    label.innerHTML = '<span aria-hidden="true">' + [...labelTekst].map(c => '<span class="lt">' + (c === ' ' ? '&nbsp;' : c) + '</span>').join('') + '</span>'; // één binnenrij: het label is een flexbox met gap
+    const labelSr = document.createElement('span'); labelSr.className = 'sr'; labelSr.textContent = labelTekst; label.prepend(labelSr); // .sr staat absoluut, dus geen extra flex-gap
     kopH1.innerHTML = kopH1.textContent.split(' ').map(w => '<span class="w-r" aria-hidden="true"><span>' + w + '</span></span>').join(' ');
     const intro = gsap.timeline({ paused: true, defaults: { ease: 'power4.out' }, onComplete: () => { document.documentElement.classList.remove('intro'); document.dispatchEvent(new Event('vivo:intro-klaar')); } });
     Promise.race([document.fonts.ready, new Promise(r => setTimeout(r, 700))]).then(() => intro.play()); // geen herschikking van de kop midden in de animatie
