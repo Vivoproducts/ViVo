@@ -816,6 +816,10 @@ console.log('Geschreven: docs-preview/motion.html');
 // ════ Case-pagina (preview, aanpak B): zelfde stijl/kopbalk/afsluiter als de homepage + eigen opbouw ════
 // Hero in projectkleur met tablet + telefoon · verhaal groot en leesbaar · galerij (scroll door de site + mobiel)
 // · groot "volgende case"-vlak. Eerst alleen DELPHI (akkoord Thomas), daarna doortrekken naar alle cases.
+// Kleinere kop nodig? Niet de hele naam telt, maar het langste woord: dat moet heel in de kolom passen.
+// "OK Timmerwerken" is 15 tekens (dus kort), maar "Timmerwerken" brak op brede schermen af tot "Timmerwerke"+"n".
+const langeNaam = (naam) => naam.length > 16 || Math.max(...naam.split(/\s+/).map(w => w.length)) > 11;
+
 const DONKER = new Set(['thnk', 'flow8', 'bamontage']); // donkere hero → wit logo, lichte tekst
 const HERO_KLEUR = { delphi: '#ffffff' };
 const HERO_BEELD = { flow8: 'rapportage.jpg' }; // Flow8: rapportage oogt het sterkst (en heeft geen telefoonbeeld) // DELPHI-hero wit, net als hun eigen site (keuze Thomas)
@@ -931,7 +935,7 @@ ${KOP(thuis)}
   <div class="w">
     <div class="ctekst">
       <a class="label" href="${thuis}#projecten">Projecten · ${c.jaar}</a>${c.status ? `<span class="cstatus">${c.status}</span>` : ''}
-      <h1 id="case-kop"${c.naam.length > 16 ? ' class="lang"' : ''}>${c.naamKop || c.naam}</h1>
+      <h1 id="case-kop"${langeNaam(c.naam) ? ' class="lang"' : ''}>${c.naamKop || c.naam}</h1>
       <p class="intro">${c.intro}</p>
       <dl class="cfeiten">
         <div><dt>${eigen ? 'Product' : 'Klant'}</dt><dd${logo ? ` class="clogo"><img src="${img(c.slug, 'logo.png')}" alt="${eigen ? c.naam : c.klant}" width="${logo[0]}" height="${logo[1]}"${logo[0] / logo[1] > 3.2 ? ' class="breed"' : ''}>` : '>' + c.klant}</dd></div>

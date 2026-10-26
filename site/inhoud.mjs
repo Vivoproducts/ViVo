@@ -95,7 +95,7 @@ export const CASES = [
     klant: 'OK Timmerwerken',
     sector: 'Timmer- en betonwerk',
     soort: 'Website, logo en CMS',
-    rol: ['Concept', 'Logo', 'Ontwerp', 'Bouw', 'Teksten', 'SEO'],
+    rol: ['Concept', 'Logo', 'Ontwerp', 'Bouw', 'Teksten', 'SEO', 'Hosting'],
     live: 'https://www.ok-timmerwerken.nl/',
     kleur: '#ebe4db',
     kleurTekst: '#6b6762',

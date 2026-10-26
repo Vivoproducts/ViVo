@@ -106,6 +106,9 @@ Ook als `vivo-preview` in `.claude/launch.json`.
      met tablet + telefoon die **schuin blijven**; verhaal compact op zwart (3 kolommen); scrollvenster zoals vroeger (zelf
      scrollen, `.doorkijk`); telefoon iPhone Plus-formaat; compacte "volgende case". Klantlogo: `cases/<slug>/logo.png`
      (DELPHI uitgesneden uit de eigen opname). `naamKop` = naam met vast afbreekpunt (\u00ad) voor grote koppen.
+     **De kleinere kop (`.lang`) hangt af van het langste wóórd, niet van de naamlengte** (26 okt 2026): "OK Timmerwerken"
+     is 15 tekens en bleef dus op 84px staan, waarna "Timmerwerken" op brede schermen hard afbrak tot "Timmerwerke"+"n".
+     Nu: `langeNaam()` = naam > 16 tekens **of** langste woord > 11 tekens. Nagemeten van 1280 tot 2560 px.
      Infades via `.onthul` (IntersectionObserver) — níet via ScrollTrigger-start, die mist bij lazy beelden.
    - **Toegankelijkheid van de hero-intro (22 okt 2026):** de intro splitst label en kop in losse letters/woorden, die `aria-hidden`
      krijgen. De volledige tekst mag dan **niet** als `aria-label` op de `<span class="label">` — een kale span kan geen naam dragen
