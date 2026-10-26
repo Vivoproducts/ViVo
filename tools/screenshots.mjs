@@ -15,6 +15,7 @@ const CASES = [
   { slug: 'delphi', url: 'https://www.sleutelbeheersystemen.nl/' },
   { slug: 'mozi', url: 'https://thomv-flow8.github.io/Mozi/', verberg: ['Ontwerpvoorstel'] },
   { slug: 'bamontage', url: 'https://bamontage.nl/' },
+  { slug: 'oktimmerwerken', url: 'https://www.ok-timmerwerken.nl/' },
 ];
 
 // Verbergt vaste balken (cookiemelding, review-melding) op basis van hun tekst
@@ -46,6 +47,18 @@ async function scrollDoor(page) {
 async function stikPagina(browser, page, pad) {
   const { width, height: vh } = page.viewportSize();
   await page.evaluate(() => { document.documentElement.style.scrollBehavior = 'auto'; });
+  // Een scroll-gedreven scene (sticky kind dat het scherm vult) is meerdere schermen hoog, maar toont
+  // steeds hetzelfde beeld. Zonder inkorten komt diezelfde scene meermaals in de gestikte opname.
+  await page.evaluate(() => {
+    const vh = window.innerHeight;
+    for (const el of document.querySelectorAll('body *')) {
+      if (getComputedStyle(el).position !== 'sticky') continue;
+      if (el.getBoundingClientRect().height <= vh * 0.5) continue;
+      const houder = el.parentElement;
+      if (houder && houder.getBoundingClientRect().height > vh * 1.4) houder.style.setProperty('height', vh + 'px', 'important');
+    }
+  });
+  await page.waitForTimeout(400);
   const totaal = await page.evaluate(() => document.documentElement.scrollHeight);
   const tegels = [];
   for (let y = 0; y < totaal; y += vh) {
@@ -53,8 +66,18 @@ async function stikPagina(browser, page, pad) {
     await page.waitForTimeout(450);
     const werkelijk = await page.evaluate(() => window.scrollY);
     tegels.push({ y: werkelijk, data: (await page.screenshot({ type: 'jpeg', quality: 92 })).toString('base64') });
-    if (tegels.length === 1) {                      // na het eerste scherm: vaste/kleverige balken verbergen
-      await page.evaluate(() => { for (const el of document.querySelectorAll('body *')) { const p = getComputedStyle(el).position; if (p === 'fixed' || p === 'sticky') el.style.setProperty('visibility', 'hidden', 'important'); } });
+    if (tegels.length === 1) {                      // na het eerste scherm: vaste balken verbergen, zodat ze niet op elke tegel terugkomen
+      // Let op: alleen échte balken. Een sticky element dat een heel scherm vult is inhoud (een scroll-
+      // gedreven scene, zoals de voor/na-sectie bij OK Timmerwerken) — die verbergen gaf een zwart vlak.
+      await page.evaluate(() => {
+        const vh = window.innerHeight;
+        for (const el of document.querySelectorAll('body *')) {
+          const p = getComputedStyle(el).position;
+          if (p !== 'fixed' && p !== 'sticky') continue;
+          if (p === 'sticky' && el.getBoundingClientRect().height > vh * 0.5) continue; // vult het scherm → inhoud
+          el.style.setProperty('visibility', 'hidden', 'important');
+        }
+      });
     }
   }
   const hoogte = Math.min(totaal, 16000);

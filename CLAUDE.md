@@ -178,6 +178,19 @@ Ook als `vivo-preview` in `.claude/launch.json`.
      Donkere hero: slug in `DONKER`; projectkaart in modus **`browser`** (browservenster dat bij hover doorscrolt).
      Case-tekst uit het logboek van dat project (`~/Projects/BA-Montage/PROJECT.md`) — geen verzonnen cijfers.
      **`tools/regressie.mjs` leest de cases nu uit `inhoud.mjs`**, dus een nieuwe case gaat vanzelf mee in de test.
+   - **OK Timmerwerken toegevoegd als case (26 okt 2026):** ok-timmerwerken.nl — timmer- en betonwerk uit Gorinchem,
+     erkend VELUX Montagepartner. **Op de plek van Mozi gezet; Mozi staat nu onderaan** (keuze Thomas). Slug
+     `oktimmerwerken`, projectkaart in modus **`browser`** (keuze Thomas uit drie gerenderde varianten), hero in warm
+     vellum `#ebe4db` — de site is licht, niet donker, dus **niet** in `DONKER` en het logo is de **zwarte** variant
+     (`assets/logo-nieuw/png/liggend-zwart-800.png`). Case-tekst uit het logboek van dat project
+     (`~/Projects/OK-Timmerwerken/PROJECT.md`) en van de live site — geen verzonnen cijfers. Toestemming van de klant
+     (Ozcan) gegeven op 26 okt 2026.
+   - **Opnamescript verbeterd (26 okt 2026):** `stikPagina` in `tools/screenshots.mjs` verborg ná het eerste scherm
+     **alles** met `position: fixed` of `sticky`. OK Timmerwerken heeft een scroll-gedreven voor/na-scene waarvan het
+     sticky element een heel scherm vult; die werd meeverborgen → een zwart vlak van 2160 px in `pagina.jpg`. Nu blijft
+     een sticky element dat meer dan een halve viewport hoog is staan (dat is inhoud, geen balk), en wordt de houder van
+     zo'n scene **ingekort tot één scherm**, anders komt dezelfde scene meermaals in de gestikte opname. Nagemeten:
+     THNK, DELPHI, Mozi en BA Montage hebben geen schermvullende sticky, dus voor hen verandert er niets.
    - **Cookies / meten (keuze Thomas: analytics + marketing):** ID's in `SITE.meten` (`ga4`, `googleAds`, `metaPixel`).
      **Leeg = uit**: geen melding, geen scripts, privacytekst "geen cookies". Ingevuld → automatisch cookiemelding
      (`site/toestemming.js`: niets laden vóór toestemming, weigeren even makkelijk als accepteren, Consent Mode v2,

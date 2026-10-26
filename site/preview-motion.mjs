@@ -170,7 +170,7 @@ const img = (slug, f) => `../docs/img/cases/${slug}/${webp(slug, f)}`;
 const pngMaat = p => { const b = readFileSync(p); return [b.readUInt32BE(16), b.readUInt32BE(20)]; };
 const afm = (slug, f) => { const p = join(root, 'docs/img/cases', slug, f); if (!existsSync(p)) return ''; const [w, h] = f.endsWith('.png') ? pngMaat(p) : jpgMaat(p); return ` width="${w}" height="${h}"`; };
 const heeft = (slug, f) => existsSync(join(root, 'docs/img/cases', slug, f));
-const MODUS = { thnk: 'vol', delphi: 'tablet', mozi: 'tablet-scroll', bamontage: 'browser', flow8: 'scherm' };
+const MODUS = { thnk: 'vol', delphi: 'tablet', oktimmerwerken: 'browser', bamontage: 'browser', flow8: 'scherm', mozi: 'tablet-scroll' };
 const VOLGORDE = { flow8: ['login.jpg', 'rapportage.jpg', 'desktop.jpg', 'route.jpg', 'kaart.jpg'] };
 // Op de lichtgrijze projectsectie valt het bijna-witte DELPHI-vlak weg → daar wit
 const OP_GRIJS = { delphi: '#ffffff' };
