@@ -103,10 +103,18 @@ HTML moet mee de repository in. Controleer `.gitignore` van dat project.
 ### Stap 2 — ViVo als proef
 Eigen site, dus een misstap raakt geen klant. Lost meteen het www-certificaat op.
 
-- [ ] Domein `vivoproducts.nl` toevoegen in Plesk (nog niet de DNS omzetten).
-- [ ] Git-koppeling naar `Vivoproducts/ViVo`, tak `main`, deployment path `docs/`,
-      modus **automatisch**.
-- [ ] Testen via het tijdelijke adres van Cloud86. Alle pagina's langs, plus
+- [x] Domein `vivoproducts.nl` toevoegen in Plesk.
+- [x] Git-koppeling naar `Vivoproducts/ViVo`, tak `main`, deployment directory `/httpdocs`,
+      modus **automatisch**. De repo is openbaar, dus er is geen deploy key of wachtwoord nodig.
+- [x] **Document root** op `/httpdocs/docs` gezet.
+      Nodig omdat Plesk de hele repo naar /httpdocs schrijft terwijl de site in `docs/` staat.
+- [x] **Webhook ingesteld** (GitHub → Plesk, ping gaf HTTP 204). Oorspronkelijk: — anders pullt Plesk niet vanzelf. In Plesk: Git → Repository
+      Settings → webhook-URL kopiëren. Die URL in GitHub zetten bij Settings → Webhooks →
+      Add webhook, content type `application/json`, trigger op `push`.
+      Zonder webhook moet je na elke push handmatig op **Pull now** klikken.
+      Let op: die URL bevat een geheim; niet in een commit of op een openbare plek zetten.
+- [x] Getest vóór de DNS-wijziging door Chromium het nieuwe IP op te dringen
+      (`--host-resolver-rules=MAP vivoproducts.nl 45.82.191.90`). Alle 22 pagina-tests goed. Alle pagina's langs, plus
       `node tools/regressie.mjs <tijdelijk-adres>`.
 - [x] `.htaccess` wordt gegenereerd door `site/bouw.mjs` en komt vanzelf in `docs/` terecht
       (https afdwingen, CSP, X-Frame-Options, X-Content-Type-Options, Referrer-Policy,

@@ -37,9 +37,19 @@ Ook als `vivo-preview` in `.claude/launch.json`.
    - Live site: lettertypes **zelf hosten** (geen Google Fonts-CDN, AVG). Neue Plak (Baunfire) is betaald.
 4. Siteconcept → preview → bouw — **bezig**
    - Domein **vivoproducts.nl** (DNS bij Strato; mail info@ loopt via Strato — MX-records nooit aanraken).
-     Contact op de site: **info@vivoproducts.nl**. Hosting: **GitHub Pages, main → /docs** (staat aan sinds 3 okt 2026):
-     https://vivoproducts.github.io/ViVo/ — alleen de site wordt gepubliceerd, niet de logo-/huisstijlrondes.
-     **Elke push naar main = live.**
+     Contact op de site: **info@vivoproducts.nl**.
+     **Hosting: Cloud86 (Plesk/LiteSpeed) sinds 27 okt 2026** — verhuisd van GitHub Pages, zie `VERHUIZING-CLOUD86.md`.
+     Server `shared87.cloud86-host.nl`, IP `45.82.191.90`, document root `/httpdocs/docs`. Plesk haalt de repo op via
+     Git (tak `main`) en deployt naar `/httpdocs`; een **webhook** in GitHub zorgt dat dat automatisch gebeurt — zonder
+     die webhook moet je in Plesk handmatig op "Pull now" klikken. **Elke push naar main = live**, net als voorheen.
+     Wat dit oploste: het www-certificaat (hing 23 dagen bij GitHub, Let's Encrypt regelde het in een halve minuut
+     voor beide namen), **zes beveiligingskoppen** i.p.v. nul, caching van een jaar i.p.v. tien minuten, en Brotli.
+     De `.htaccess` wordt gegenereerd door `site/bouw.mjs` — nooit met de hand aanpassen, `docs/` wordt bij elke
+     bouw leeggemaakt. HSTS staat aan via Plesk (6 maanden, **zonder** includeSubDomains, zodat een testsubdomein
+     zonder https niet onbereikbaar wordt). Preferred domain = `vivoproducts.nl`, dus www stuurt door met een 301.
+     **DNS blijft bij Strato en de mail is niet aangeraakt**: alleen A en AAAA zijn omgezet naar Cloud86.
+     GitHub Pages staat voorlopig nog aan als terugvaloptie; na een week zonder problemen het custom domain daar
+     loskoppelen.
    - Opzet (akkoord Thomas): homepage (hero, showcase, statement, diensten, werk, werkwijze, contact)
      **én** meteen case-pagina's. 'Bekijk case' → eigen case-pagina, met link naar de live site.
    - Cases: **Flow8** (eigen product, blauw #4f6ef5), **THNK** thnkmusic.com (zwart, Archivo),
