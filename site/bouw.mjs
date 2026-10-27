@@ -246,6 +246,57 @@ for (const c of CASES) for (const f of ['desktop.jpg', 'mobiel.jpg', 'pagina.jpg
 // ── Vindbaarheid: robots.txt, sitemap.xml, llms.txt (adressen via SITE.basis) ──
 if (!TEST) {
   schrijf('CNAME', 'vivoproducts.nl\n'); // eigen domein voor GitHub Pages (DNS: A/AAAA naar GitHub, MX blijft Strato)
+  // .htaccess voor Cloud86 (Plesk/LiteSpeed). GitHub Pages negeert dit bestand, dus het kan
+  // zonder gevolgen meegepubliceerd worden; zie VERHUIZING-CLOUD86.md.
+  // Let op: HSTS staat bewust uit tot https op de nieuwe server bewezen werkt — aanzetten is
+  // moeilijk terug te draaien, want browsers onthouden het een jaar.
+  schrijf('.htaccess', `# ViVo — gegenereerd door site/bouw.mjs, niet met de hand aanpassen.
+
+# ── https afdwingen ──
+RewriteEngine On
+RewriteCond %{HTTPS} !=on
+RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+
+# ── Beveiligingskoppen ──
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "DENY"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), interest-cohort=()"
+  # De site laadt alles van zichzelf; alleen het contactformulier praat met Web3Forms.
+  # 'unsafe-inline' is nodig omdat CSS en JS inline staan (verkleind bij publiceren).
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.web3forms.com; form-action 'self' https://api.web3forms.com; frame-ancestors 'none'; base-uri 'self'; object-src 'none'"
+  # Pas aanzetten als https op de nieuwe server werkt:
+  # Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+</IfModule>
+
+# ── Caching ──
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType image/jpeg "access plus 1 year"
+  ExpiresByType image/png "access plus 1 year"
+  ExpiresByType image/webp "access plus 1 year"
+  ExpiresByType image/svg+xml "access plus 1 year"
+  ExpiresByType font/woff2 "access plus 1 year"
+  ExpiresByType text/css "access plus 1 month"
+  ExpiresByType application/javascript "access plus 1 month"
+  ExpiresByType text/html "access plus 0 seconds"
+</IfModule>
+<IfModule mod_headers.c>
+  <FilesMatch "\\.(jpg|jpeg|png|webp|svg|woff2)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+  <FilesMatch "\\.html$">
+    Header set Cache-Control "public, max-age=0, must-revalidate"
+  </FilesMatch>
+</IfModule>
+
+# ── Compressie ──
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/plain text/xml application/javascript application/json image/svg+xml
+</IfModule>
+
+`);
   const paden = ['/', '/over/', '/contact/', ...CASES.map(c => `/werk/${c.slug}/`), '/privacy/', '/voorwaarden/', ...(MEET.meten ? ['/cookies/'] : [])];
   const vandaag = new Date().toISOString().slice(0, 10);
   schrijf('sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>
