@@ -83,12 +83,30 @@ DNSSEC  niet actief
 | Site | Bouwt met | Publiceert uit | Nu | Straks |
 |---|---|---|---|---|
 | ViVo | `npm run bouw` | `docs/` | push → GitHub Pages | push → Plesk haalt op |
-| THNK | `node prerender.mjs` | `site/` | push → Vercel bouwt | push → Plesk haalt op |
+| THNK | `node prerender.mjs` | `docs/` | Vercel — bouwt niet meer, zie hieronder | push → Plesk haalt op |
 | OK Timmerwerken | `node tools/genereer-paginas.js` | hoofdmap | push → GitHub Pages | push → Plesk haalt op |
 
-**THNK vraagt een aanpassing.** Daar draait `prerender.mjs` nu als bouwstap óp Vercel. Plesk
-bouwt niet — het haalt alleen bestanden op. Die stap moet dus lokaal draaien en de gegenereerde
-HTML moet mee de repository in. Controleer `.gitignore` van dat project.
+**THNK is op 28 oktober omgezet** — alle drie de sites werken nu hetzelfde: lokaal bouwen,
+pushen, Plesk haalt op. Daar draaide `prerender.mjs` als bouwstap óp Vercel, en Plesk bouwt
+niet.
+
+Een eerste poging schreef de gegenereerde HTML terug in `site/` en legde de live site plat:
+bron en uitvoer waren dezelfde bestanden, dus de tweede ronde liep over zijn eigen werk en
+zette alle teksten dubbel in de pagina. Daarom nu hetzelfde model als ViVo: `site/` is de
+schone bron en wordt nooit beschreven, **`docs/` is de uitvoer** en is wat Plesk publiceert.
+Welke bestanden meegaan bepaalt `git ls-files`, dus de `.gitignore` van dat project wordt
+vanzelf gevolgd — een nieuw bestand telt wel pas mee ná `git add`.
+
+Het script stopt sindsdien met een duidelijke melding zodra het al gevulde blokken ziet.
+**Hiermee vervalt de vraag of Node op het hostingpakket draait**: het bouwen gebeurt lokaal.
+
+**Vercel bouwt intussen niet meer.** De repo is verhuisd van `thomv-flow8` naar de
+organisatie `Vivoproducts`, en een GitHub App-installatie gaat daarbij niet mee. De
+koppeling in het Vercel-project staat er nog, maar de app heeft geen toegang meer — op
+Vivoproducts staat alleen `pages-cms` geïnstalleerd. Vercel serveert daardoor nog de kapotte
+build van 28 oktober. Dat lossen we niet meer op: zodra THNK op Cloud86 draait en de
+A-records om zijn, is het klaar. Duurt dat lang, dan kan in Vercel de laatste goede build met
+**Promote to Production** teruggezet worden; dat werkt los van GitHub.
 
 ---
 
@@ -130,8 +148,14 @@ Eigen site, dus een misstap raakt geen klant. Lost meteen het www-certificaat op
 - [ ] Custom domain losmaken bij GitHub Pages (anders blijft dat certificaat hangen).
 
 ### Stap 3 — THNK
-- [ ] `prerender.mjs` lokaal draaien en de uitvoer meecommitten.
-- [ ] Domein toevoegen in Plesk, Git-koppeling, deployment path `site/`.
+- [x] Bouwmodel omgezet: `site/` is de bron, `prerender.mjs` bouwt naar `docs/`, en die map
+      gaat mee de repo in (28 okt).
+- [ ] Domein toevoegen in Plesk, Git-koppeling, deployment path **`docs/`**.
+- [ ] **Deploy key**: de repo `Vivoproducts/THNK` is privé, dus Plesk kan er niet zomaar bij.
+      Plesk genereert de sleutel; die in GitHub zetten bij Settings → Deploy keys.
+- [ ] Webhook instellen (GitHub → Plesk), anders pullt Plesk niet vanzelf.
+- [ ] **Preferred domain = `www.thnkmusic.com`** — andersom dan bij ViVo; het kale domein
+      stuurt met een 308 door naar www.
 - [ ] Testen op het tijdelijke adres.
 - [ ] A-records omzetten in het Vercel-dashboard (DNS blijft bij Vercel).
 - [ ] Controleren dat de iCloud-mail ongemoeid is: MX, SPF en `apple-domain`.
