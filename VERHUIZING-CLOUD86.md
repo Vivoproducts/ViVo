@@ -147,19 +147,33 @@ Eigen site, dus een misstap raakt geen klant. Lost meteen het www-certificaat op
 - [ ] Testmail sturen en ontvangen.
 - [ ] Custom domain losmaken bij GitHub Pages (anders blijft dat certificaat hangen).
 
-### Stap 3 — THNK
+### Stap 3 — THNK — GEDAAN (28 okt 2026)
 - [x] Bouwmodel omgezet: `site/` is de bron, `prerender.mjs` bouwt naar `docs/`, en die map
-      gaat mee de repo in (28 okt).
-- [ ] Domein toevoegen in Plesk, Git-koppeling, deployment path **`docs/`**.
-- [ ] **Deploy key**: de repo `Vivoproducts/THNK` is privé, dus Plesk kan er niet zomaar bij.
-      Plesk genereert de sleutel; die in GitHub zetten bij Settings → Deploy keys.
-- [ ] Webhook instellen (GitHub → Plesk), anders pullt Plesk niet vanzelf.
-- [ ] **Preferred domain = `www.thnkmusic.com`** — andersom dan bij ViVo; het kale domein
-      stuurt met een 308 door naar www.
-- [ ] Testen op het tijdelijke adres.
-- [ ] A-records omzetten in het Vercel-dashboard (DNS blijft bij Vercel).
-- [ ] Controleren dat de iCloud-mail ongemoeid is: MX, SPF en `apple-domain`.
-- [ ] Vercel-project pas verwijderen als alles een week goed draait.
+      gaat mee de repo in.
+- [x] Domein toegevoegd in Plesk via **Deploy using Git**, in de webruimte van
+      `vivoproducts.nl` — een eigen webruimte kon niet, het pakket heeft één abonnement.
+      Mailservice bewust **uit**: de mail loopt via iCloud.
+- [x] Git-koppeling naar `Vivoproducts/THNK`, tak `main`, deployment directory
+      `/thnkmusic.com`, modus automatisch. **Document root `/thnkmusic.com/docs`**, zodat
+      alleen de gebouwde site geserveerd wordt en `site/` van buitenaf onzichtbaar blijft.
+- [x] **Deploy key** aangemaakt in Plesk en in GitHub gezet (alleen lezen). Nodig omdat deze
+      repo privé is.
+- [x] Getest vóór de DNS-wijziging via `curl --resolve` op `45.82.191.90`: alle vier de
+      pagina's byte-identiek aan de lokale build, beveiligingskoppen aanwezig, `README.md`,
+      `prerender.mjs` en `site/` geven 404, `.htaccess` 403.
+- [x] **Domeinen losgemaakt van het Vercel-project** — dat moest eerst, anders beheerde
+      Vercel de adressen zelf en kon je er geen eigen A-records naast zetten.
+- [x] A-records voor `@` en `www` naar `45.82.191.90` (TTL 60). Naamservers bij Vercel
+      gelaten; MX, SPF, DKIM en `apple-domain` ongemoeid, dus de iCloud-mail bleef werken.
+- [x] Let's Encrypt-certificaat voor `thnkmusic.com` **en** `www.thnkmusic.com`.
+- [x] **HSTS aangezet** (`max-age=15768000`) nadat https bewezen werkte.
+- [ ] Vercel-project verwijderen — pas als alles een week goed draait (vanaf 4 nov).
+- [ ] **Webhook instellen** (GitHub → Plesk); zolang die er niet is, moet je na elke push
+      handmatig op **Pull now** klikken.
+
+**Les voor de volgende site:** de lokale DNS-cache van de router hield het oude adres nog
+13 minuten vast. Op het vaste netwerk zag je daardoor nog de oude site, terwijl mobiel
+internet de nieuwe al liet zien. Dat is geen fout — even wachten of de router herstarten.
 
 ### Stap 4 — OK Timmerwerken
 - [ ] Ozcan informeren (concepttekst onderaan).
