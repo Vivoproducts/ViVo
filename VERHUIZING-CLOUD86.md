@@ -168,8 +168,9 @@ Eigen site, dus een misstap raakt geen klant. Lost meteen het www-certificaat op
 - [x] Let's Encrypt-certificaat voor `thnkmusic.com` **en** `www.thnkmusic.com`.
 - [x] **HSTS aangezet** (`max-age=15768000`) nadat https bewezen werkte.
 - [ ] Vercel-project verwijderen — pas als alles een week goed draait (vanaf 4 nov).
-- [ ] **Webhook instellen** (GitHub → Plesk); zolang die er niet is, moet je na elke push
-      handmatig op **Pull now** klikken.
+- [x] **Webhook ingesteld** (GitHub → Plesk). Getest met een echte commit: stond binnen
+      20 seconden vanzelf live. Publiceren is nu: aanpassen in `site/`,
+      `node prerender.mjs`, committen, pushen.
 
 **Les voor de volgende site:** de lokale DNS-cache van de router hield het oude adres nog
 13 minuten vast. Op het vaste netwerk zag je daardoor nog de oude site, terwijl mobiel
